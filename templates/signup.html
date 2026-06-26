@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Sign Up</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1 class="brand-title">Aura ⚡</h1>
+            <p class="auth-subtitle">Create a local account to get started</p>
+
+            <form id="signup-form">
+                <div class="input-group">
+                    <label for="new-username">Choose Username</label>
+                    <input type="text" id="new-username" placeholder="Pick an engineering handle" required autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label for="new-password">Create Password</label>
+                    <input type="password" id="new-password" placeholder="••••••••" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="••••••••" required>
+                </div>
+
+                <div id="error-message" class="error-box hidden"></div>
+                <div id="success-message" class="success-box hidden"></div>
+
+                <button type="submit" class="auth-btn">Register Account</button>
+            </form>
+
+            <p class="auth-footer">
+                Already have an account? <a href="login.html">Log in here</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>

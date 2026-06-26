@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Daily Workspace</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">Aura ⚡</div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Workspace</a>
+            <a href="deadlines.html">Deadlines</a>
+            <a href="progress.html">Progress</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <span id="welcome-user">Loading...</span>
+            <button id="logout-btn" class="logout-link">Logout</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        
+        <header class="dashboard-header">
+            <h1 id="greeting-text">Focus on Today</h1>
+            <p class="current-date" id="live-date"></p>
+        </header>
+
+        <section class="input-panel">
+            <form id="task-form">
+                <input type="text" id="task-input" placeholder="Type your next daily objective or habit..." required autocomplete="off">
+                
+                <select id="category-select">
+                    <option value="daily">☀️ Daily Task</option>
+                    <option value="habit">🧘 Habit / Hobby</option>
+                </select>
+
+                <button type="submit" class="add-task-btn">+ Add Goal</button>
+            </form>
+        </section>
+
+        <section class="workspace-grid">
+            
+            <div class="workspace-card">
+                <div class="card-header">
+                    <h2>☀️ Daily Grind</h2>
+                    <span class="task-count" id="daily-count">0</span>
+                </div>
+                <div class="task-list-wrapper" id="daily-tasks-container">
+                    <p class="empty-state">No daily tasks added yet. Set an intention!</p>
+                </div>
+            </div>
+
+            <div class="workspace-card">
+                <div class="card-header">
+                    <h2>🧘 Habits & Hobbies</h2>
+                    <span class="task-count" id="habit-count">0</span>
+                </div>
+                <div class="task-list-wrapper" id="habit-tasks-container">
+                    <p class="empty-state">No habits tracked today. Build consistency!</p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="analytics-bar">
+        <div class="progress-section">
+            <span>Workspace Progress</span>
+            <div class="progress-track">
+                <div class="progress-fill" id="workspace-progress-fill" style="width: 0%;"></div>
+            </div>
+            <span id="progress-percentage">0%</span>
+        </div>
+    </footer>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>

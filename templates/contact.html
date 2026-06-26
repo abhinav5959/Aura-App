@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Developer Connect</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">Aura ⚡</div>
+        <div class="nav-links">
+            <a href="index.html">Workspace</a>
+            <a href="deadlines.html">Deadlines</a>
+            <a href="progress.html">Progress</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <span id="welcome-user">Loading...</span>
+            <button id="logout-btn" class="logout-link">Logout</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Connect with the Developer</h1>
+            <p class="current-date">Have questions or feedback about Aura?</p>
+        </header>
+
+        <div class="workspace-grid">
+            <div class="workspace-card">
+                <h2>Developer Profile</h2>
+                <p class="profile-text">Hi, I'm an engineering student building practical, minimalist software tools to solve everyday challenges. Check out my digital footprints below:</p>
+                
+                <div class="social-links-container">
+                    <a href="https://github.com" target="_blank" class="social-link-item">GitHub Profile 📂</a>
+                    <a href="https://linkedin.com" target="_blank" class="social-link-item">LinkedIn Network 💼</a>
+                    <a href="https://instagram.com" target="_blank" class="social-link-item">Instagram Profile 📸</a>
+                </div>
+            </div>
+
+            <div class="workspace-card">
+                <h2>Drop a Message</h2>
+                <form id="contact-form">
+                    <div class="input-group">
+                        <label for="contact-name">Name</label>
+                        <input type="text" id="contact-name" placeholder="Your Name" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="contact-email">Email</label>
+                        <input type="email" id="contact-email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" rows="4" placeholder="Type your message here..." required></textarea>
+                    </div>
+                    
+                    <div id="contact-success" class="success-box hidden">Message logged successfully!</div>
+                    <button type="submit" class="add-task-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>

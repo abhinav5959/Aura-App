@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Academic Deadlines</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">Aura ⚡</div>
+        <div class="nav-links">
+            <a href="index.html">Workspace</a>
+            <a href="deadlines.html" class="active">Deadlines</a>
+            <a href="progress.html">Progress</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <span id="welcome-user">Loading...</span>
+            <button id="logout-btn" class="logout-link">Logout</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        
+        <header class="dashboard-header">
+            <h1>Academic Milestones & Deadlines</h1>
+            <p class="current-date">Keep track of upcoming submissions and exams</p>
+        </header>
+
+        <section class="input-panel">
+            <form id="deadline-form">
+                <input type="text" id="deadline-input" placeholder="e.g., Submit Chemistry Lab Record, Java Project..." required autocomplete="off">
+                
+                <div class="date-picker-wrapper">
+                    <label for="due-date-input" class="hidden-label">Due Date</label>
+                    <input type="date" id="due-date-input" required>
+                </div>
+
+                <button type="submit" class="add-task-btn priority-btn">+ Track Deadline</button>
+            </form>
+        </section>
+
+        <section class="workspace-card full-width-card">
+            <div class="card-header">
+                <h2>📅 Urgency Priority Queue</h2>
+                <span class="task-count alert-count" id="deadline-count">0</span>
+            </div>
+            
+            <div class="task-list-wrapper" id="deadline-tasks-container">
+                <p class="empty-state">No upcoming deadlines detected. Your schedule looks clean!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>

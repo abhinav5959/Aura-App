@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - About the Project</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">Aura ⚡</div>
+        <div class="nav-links">
+            <a href="index.html">Workspace</a>
+            <a href="deadlines.html">Deadlines</a>
+            <a href="progress.html">Progress</a>
+            <a href="about.html" class="active">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <span id="welcome-user">Loading...</span>
+            <button id="logout-btn" class="logout-link">Logout</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>About Aura</h1>
+            <p class="current-date">The Engineering Behind the Design</p>
+        </header>
+
+        <section class="workspace-card full-width-card">
+            <div class="about-content">
+                <h2>Project Concept</h2>
+                <p><strong>Aura</strong> is a minimalist, high-yield workspace built to combat academic procrastination and streamline cognitive focus. By dividing tasks into immediate daily objectives, long-term academic deadlines, and persistent habits, the application structures a student's day without unnecessary clutter.</p>
+                
+                <hr class="section-divider">
+
+                <h2>Technical Stack Breakdown</h2>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th>Technology Used</th>
+                            <th>Engineering Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Frontend Layout</strong></td>
+                            <td>HTML5 Semantic Tags</td>
+                            <td>Provides a clean Document Object Model (DOM) and accessibility.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aesthetics & UI</strong></td>
+                            <td>CSS3 Grid, Flexbox & Variables</td>
+                            <td>Powers the midnight dark-theme engine, layouts, and distraction blurs.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Application Logic</strong></td>
+                            <td>Vanilla JavaScript (ES6+)</td>
+                            <td>Manages the app state machine, client-side routing, and timers.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Architecture</strong></td>
+                            <td>Browser LocalStorage API</td>
+                            <td>Emulates a database table structure locally using JSON key-value string isolation.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Login</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1 class="brand-title">Aura ⚡</h1>
+            <p class="auth-subtitle">Log in to your local workspace</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your engineering handle" required autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <div id="error-message" class="error-box hidden"></div>
+
+                <button type="submit" class="auth-btn">Enter Workspace</button>
+            </form>
+
+            <p class="auth-footer">
+                New to Aura? <a href="signup.html">Create a local account</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>

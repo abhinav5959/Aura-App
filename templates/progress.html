@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Progress Analytics</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">Aura ⚡</div>
+        <div class="nav-links">
+            <a href="index.html">Workspace</a>
+            <a href="deadlines.html">Deadlines</a>
+            <a href="progress.html" class="active">Progress</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <span id="welcome-user">Loading...</span>
+            <button id="logout-btn" class="logout-link">Logout</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        
+        <header class="dashboard-header">
+            <h1>Performance Analytics</h1>
+            <p class="current-date">Review your 7-day consistency trends</p>
+        </header>
+
+        <section class="workspace-grid">
+            
+            <div class="workspace-card">
+                <div class="card-header">
+                    <h2>☀️ Daily Tasks (Last 7 Days)</h2>
+                </div>
+                <div class="chart-container">
+                    <div class="bar-chart" id="daily-bar-chart"></div>
+                </div>
+            </div>
+
+            <div class="workspace-card">
+                <div class="card-header">
+                    <h2>🧘 Hobbies & Habits (Last 7 Days)</h2>
+                </div>
+                <div class="chart-container">
+                    <div class="bar-chart" id="hobby-bar-chart"></div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="workspace-card full-width-card" style="margin-top: 25px;">
+            <div class="card-header">
+                <h2>📈 Individual Item Consistency (Last 7 Days)</h2>
+            </div>
+            <div id="individual-tracks-container">
+                <p class="empty-state">No individual item history tracked yet. Keep logging daily data!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>
