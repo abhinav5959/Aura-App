@@ -100,12 +100,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. MIDNIGHT LIFECYCLE CONTROLLER (HARD RESET & INDIVIDUAL METRIC HISTORY)
+    // 3. MIDNIGHT LIFECYCLE CONTROLLER (VACATION MODE AND STABILITY TRACKING INTEGRATED)
     function checkMidnightRollover(user) {
         const todayStr = new Date().toDateString();
         const lastDateStr = localStorage.getItem(`aura_${user}_lastDate`);
 
         if (lastDateStr && lastDateStr !== todayStr) {
+            // Check if user turned on Vacation freeze parameter tag
+            const isVacationActive = localStorage.getItem(`aura_${user}_vacationMode`) === 'true';
+            if (isVacationActive) {
+                // Update tracker to today without wiping logs or running resets
+                localStorage.setItem(`aura_${user}_lastDate`, todayStr);
+                return;
+            }
+
             let allTasks = JSON.parse(localStorage.getItem('aura_tasks')) || [];
             let userTasks = allTasks.filter(t => t.username === user);
 
@@ -124,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
             history.push({ username: user, dateString: graphLabel, timestamp: prevDateObj.getTime(), dailyScore, hobbyScore });
             localStorage.setItem('aura_history', JSON.stringify(history));
 
-            // NEW: Log Granular Per-Task Performance Logs
+            // Log Granular Per-Task Performance Logs
             let itemHistory = JSON.parse(localStorage.getItem('aura_item_history')) || [];
             userTasks.forEach(task => {
                 if (task.category !== 'deadline') {
@@ -210,6 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // HELPER METHOD: CALCULATE STREAK HEAT COLOR LEVEL AND CHARACTER INDICATORS
+    function getStreakClassAndSymbol(streak) {
+        const count = streak || 0;
+        if (count === 0) return { cssClass: 'streak-level-0', symbol: '⚡' };
+        if (count <= 2) return { cssClass: 'streak-level-low', symbol: '⚡' };
+        if (count <= 5) return { cssClass: 'streak-level-mid', symbol: '🔥' };
+        return { cssClass: 'streak-level-high', symbol: '☄️' };
+    }
+
     // 5. DATA ENGINE RENDERING PIPELINE
     function renderDashboard() {
         const tasks = getTasks();
@@ -275,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // NEW: Individual Task Consistency Renderer
+            // Individual Task Consistency Renderer
             const individualContainer = document.getElementById('individual-tracks-container');
             if (individualContainer) {
                 let itemHistory = JSON.parse(localStorage.getItem('aura_item_history')) || [];
@@ -376,14 +393,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isCompleted = t.status === 'completed';
                 if (isCompleted) completedCount++;
 
+                // NEW: Calculate heat properties to append badge elements inline
+                let streakHTML = '';
+                if (t.category === 'habit') {
+                    const heatData = getStreakClassAndSymbol(t.streak);
+                    streakHTML = `<span class="streak-badge ${heatData.cssClass}">${heatData.symbol} ${t.streak || 0}d</span>`;
+                }
+
                 const htmlCard = `
                     <div class="task-item ${t.category} ${isCompleted ? 'completed' : ''}">
                         <div class="task-left-zone">
                             <input type="checkbox" ${isCompleted ? 'checked' : ''} onclick="toggleTaskStatus(${t.id})">
                             <span>${t.text}</span>
+                            ${streakHTML}
                         </div>
                         <div class="task-right-zone">
-                            ${t.category === 'habit' ? `<span class="streak-badge">🔥 ${t.streak}d</span>` : ''}
                             <button class="delete-task-btn" onclick="deleteTask(${t.id})">🗑️</button>
                         </div>
                     </div>`;
@@ -400,6 +424,57 @@ document.addEventListener('DOMContentLoaded', () => {
             if(document.getElementById('workspace-progress-fill')) document.getElementById('workspace-progress-fill').style.width = `${percentage}%`;
             if(document.getElementById('progress-percentage')) document.getElementById('progress-percentage').textContent = `${percentage}%`;
         }
+    }
+
+    // RUN VACATION MODE STORAGE CONFIGURATION SWITCH
+    const vacationCheckbox = document.getElementById('vacation-mode-toggle');
+    if (vacationCheckbox) {
+        const savedVacationState = localStorage.getItem(`aura_${currentUser}_vacationMode`) === 'true';
+        vacationCheckbox.checked = savedVacationState;
+
+        vacationCheckbox.addEventListener('change', (e) => {
+            localStorage.setItem(`aura_${currentUser}_vacationMode`, e.target.checked);
+        });
+    }
+
+    // RUN THE EXCEL-READY COMPLIANT CSV AGGREGATOR ENGINE
+    const csvBtn = document.getElementById('export-csv-btn');
+    if (csvBtn && currentPath.includes('progress.html')) {
+        csvBtn.addEventListener('click', () => {
+            let history = JSON.parse(localStorage.getItem('aura_history')) || [];
+            let itemHistory = JSON.parse(localStorage.getItem('aura_item_history')) || [];
+
+            let userHistory = history.filter(h => h.username === currentUser);
+            let userItemHistory = itemHistory.filter(h => h.username === currentUser);
+
+            let csvRows = [];
+            
+            csvRows.push("--- MACRO SECTOR OVERVIEW ---");
+            csvRows.push("Date Logged,Timestamp,Daily Tasks Score,Hobby Consistency");
+            userHistory.forEach(h => {
+                csvRows.push(`${h.dateString},${h.timestamp},${h.dailyScore}%,${h.hobbyScore}%`);
+            });
+
+            csvRows.push(""); 
+
+            csvRows.push("--- GRANULAR ITEM SECTOR LOGS ---");
+            csvRows.push("Task or Hobby Title,Category,Weekday,Execution Status");
+            userItemHistory.forEach(i => {
+                let statusWord = i.status === 1 ? "COMPLETED" : "MISSED";
+                csvRows.push(`"${i.text.replace(/"/g, '""')}",${i.category},${i.dateString},${statusWord}`);
+            });
+
+            let csvString = csvRows.join("\n");
+            let blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            let downloadUrl = URL.createObjectURL(blob);
+
+            let downloadLink = document.createElement("a");
+            downloadLink.href = downloadUrl;
+            downloadLink.setAttribute("download", `aura_performance_report.csv`);
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
     }
 
     const contactForm = document.getElementById('contact-form');
