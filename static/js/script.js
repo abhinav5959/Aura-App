@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. DYNAMIC API KEY INJECTION FROM VERCEL PRODUCTION ENVIRONMENT WINDOW
     const SUPABASE_URL = window.env?.SUPABASE_URL || "https://pbpcejfmtgnnmuuwhkfi.supabase.co";
-    const SUPABASE_KEY = window.env?.SUPABASE_ANON_KEY || "YOUR_SUPABASE_KEY_FALLBACK";
+    const SUPABASE_KEY = window.env?.SUPABASE_ANON_KEY || "sb_publishable_gXzJwVhAVhWwGHJ6QFwLIA_4eQ2kGtZ";
 
     // Gracefully initialize routing connection layer client instance
     const supabase = window.supabase?.createClient(SUPABASE_URL, SUPABASE_KEY);
