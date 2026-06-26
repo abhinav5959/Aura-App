@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura - Sign Up</title>
+    <title>Aura - Join Matrix</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
+
 <body>
 
     <div class="auth-container">
         <div class="auth-box">
             <h1 class="brand-title">Aura ⚡</h1>
-            <p class="auth-subtitle">Create a local account to get started</p>
+            <p class="auth-subtitle">Register a permanent encrypted sync node</p>
 
             <form id="signup-form">
                 <div class="input-group">
                     <label for="new-username">Choose Username</label>
-                    <input type="text" id="new-username" placeholder="Pick an engineering handle" required autocomplete="off">
+                    <input type="text" id="new-username" placeholder="Pick an engineering handle" required
+                        autocomplete="username">
                 </div>
 
                 <div class="input-group">
                     <label for="new-password">Create Password</label>
-                    <input type="password" id="new-password" placeholder="••••••••" required>
+                    <input type="password" id="new-password" placeholder="••••••••" required
+                        autocomplete="new-password">
                 </div>
 
                 <div class="input-group">
                     <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" placeholder="••••••••" required>
+                    <input type="password" id="confirm-password" placeholder="••••••••" required
+                        autocomplete="new-password">
                 </div>
 
                 <div id="error-message" class="error-box hidden"></div>
@@ -43,4 +49,5 @@
 
     <script src="../static/js/script.js"></script>
 </body>
+
 </html>
