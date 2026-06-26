@@ -89,7 +89,7 @@ body {
     transition: border-color 0.2s ease;
 }
 
-.input-group input:focus, .input-panel input:focus, .input-panel select:focus {
+.input-group input:focus, .input-panel input:focus, .input-panel select:focus, .input-group textarea:focus {
     border-color: var(--accent-primary);
 }
 
@@ -159,7 +159,7 @@ body {
     transition: color 0.2s;
 }
 .nav-links a:hover, .nav-links a.active { color: var(--accent-primary); }
-.nav-auth { font-size: 0.9rem; color: var(--text-muted); }
+.nav-auth { font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; }
 .logout-link {
     background: none;
     border: none;

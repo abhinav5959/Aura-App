@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - User Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">Aura ⚡</div>
+        <div class="nav-links">
+            <a href="index.html">Workspace</a>
+            <a href="deadlines.html">Deadlines</a>
+            <a href="progress.html">Progress</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <a href="profile.html" id="welcome-user-link" class="active" style="text-decoration: none; color: inherit; font-weight: 600;">
+                <span id="welcome-user">Loading...</span>
+            </a>
+            <button id="logout-btn" class="logout-link">Logout</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        
+        <header class="dashboard-header">
+            <h1>User Profile Dashboard</h1>
+            <p class="current-date">Manage your academic bio and application preferences</p>
+        </header>
+
+        <div class="workspace-grid">
+            
+            <div class="workspace-card">
+                <h2>📝 Edit Profile Bio</h2>
+                <hr class="section-divider">
+                <form id="profile-bio-form" style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label for="profile-fullname">Full Name</label>
+                        <input type="text" id="profile-fullname" placeholder="e.g. Abhinav S">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label for="profile-institution">Institution / School</label>
+                        <input type="text" id="profile-institution" placeholder="e.g. Engineering College">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label for="profile-bio">Short Bio</label>
+                        <textarea id="profile-bio" rows="3" placeholder="Tell us about your tech stack or studies..." style="width:100%; padding:12px; background-color:var(--bg-input); border:1px solid var(--border-color); border-radius:6px; color:var(--text-main); font-family:inherit; outline:none; resize:none;"></textarea>
+                    </div>
+                    
+                    <div id="profile-success" class="success-box hidden">Profile bio updated successfully!</div>
+                    <button type="submit" class="add-task-btn" style="padding: 12px; font-weight: bold;">💾 Save Changes</button>
+                </form>
+            </div>
+
+            <div class="workspace-card">
+                <h2>📊 Node Metadata</h2>
+                <hr class="section-divider">
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+                    <div style="display:flex; justify-content:space-between; background:var(--bg-input); padding:12px 15px; border-radius:6px; border:1px solid var(--border-color);">
+                        <span style="color:var(--text-muted);">Cloud Handle</span>
+                        <span id="stat-username" style="font-weight:bold; color:var(--accent-primary);">--</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; background:var(--bg-input); padding:12px 15px; border-radius:6px; border:1px solid var(--border-color);">
+                        <span style="color:var(--text-muted);">Active Workspace Items</span>
+                        <span id="stat-total-tasks" style="font-weight:bold; color:var(--accent-warn);">0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; background:var(--bg-input); padding:12px 15px; border-radius:6px; border:1px solid var(--border-color);">
+                        <span style="color:var(--text-muted);">Account Sync Status</span>
+                        <span style="font-weight:bold; color:var(--accent-primary);">ONLINE ☁️</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="static/js/script.js"></script>
+</body>
+</html>
