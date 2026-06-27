@@ -449,12 +449,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+    if (contactForm && supabase) {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
             const successBox = document.getElementById('contact-success');
-            if (successBox) { successBox.classList.remove('hidden'); setTimeout(() => successBox.classList.add('hidden'), 3000); }
-            contactForm.reset();
+            const errorBox = document.getElementById('error-message'); // Fallback notice if any
+
+            // Insert form inputs into your live Postgres table
+            const { error } = await supabase
+                .from('developer_messages')
+                .insert([{ name, email, message }]);
+
+            if (!error) {
+                if (successBox) {
+                    successBox.classList.remove('hidden');
+                    setTimeout(() => successBox.classList.add('hidden'), 3000);
+                }
+                contactForm.reset();
+            } else {
+                console.error("Failed to stream message:", error.message);
+                if (errorBox) {
+                    errorBox.textContent = "Failed to send message.";
+                    errorBox.classList.remove('hidden');
+                }
+            }
         });
     }
 
