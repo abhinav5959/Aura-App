@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
+        logoutBtn.addEventListener('click', async () => {
+            await supabase?.auth.signOut();
             localStorage.removeItem('aura_currentUser');
             window.location.href = 'login.html';
         });
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (signupForm && supabase) {
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault(); clearNotices();
+            const email = document.getElementById('new-email').value.trim();
             const username = document.getElementById('new-username').value.trim();
             const pass = document.getElementById('new-password').value;
             const confirmPass = document.getElementById('confirm-password').value;
@@ -57,19 +59,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!/\d/.test(pass)) { showNotice(errorBox, "Password must contain at least one number."); return; }
             if (!/[A-Z]/.test(pass)) { showNotice(errorBox, "Password must contain at least one uppercase letter."); return; }
 
-            // Query credentials availability checks
-            const { data: existingUser } = await supabase.from('users').select('username').eq('username', username).maybeSingle();
-            if (existingUser) { showNotice(errorBox, "Username already registered in cloud repository."); return; }
+            // Register user via Supabase Auth
+            const { data, error: authError } = await supabase.auth.signUp({
+                email,
+                password: pass,
+                options: {
+                    data: { username: username }
+                }
+            });
 
-            // Write registration payload entry rows
-            const { error: regError } = await supabase.from('users').insert([{ username, password_hash: pass }]);
-            if (regError) { showNotice(errorBox, "Cloud registry sync failure. Try again."); return; }
+            if (authError) { showNotice(errorBox, authError.message || "Account creation failed."); return; }
 
             // Initialize default preferences and profile slots cleanly
             await supabase.from('user_preferences').insert([{ username, vacation_mode: false, last_checked_date: new Date().toDateString() }]);
             await supabase.from('user_profiles').insert([{ username, full_name: '', institution: '', bio: '' }]);
 
-            showNotice(successBox, "Account registered successfully in cloud server! Redirecting...");
+            showNotice(successBox, "Account registered successfully! Check email for confirmation if required, or log in.");
             setTimeout(() => window.location.href = 'login.html', 1500);
         });
     }
@@ -77,13 +82,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (loginForm && supabase) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault(); clearNotices();
-            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
             const pass = document.getElementById('password').value;
 
-            const { data: userMatch } = await supabase.from('users').select('*').eq('username', username).eq('password_hash', pass).maybeSingle();
-            if (!userMatch) { showNotice(errorBox, "Invalid username or password credentials."); return; }
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password: pass
+            });
 
-            localStorage.setItem('aura_currentUser', username);
+            if (error || !data.user) { showNotice(errorBox, "Invalid email or password credentials."); return; }
+
+            const loggedInUsername = data.user.user_metadata?.username || email.split('@')[0];
+            localStorage.setItem('aura_currentUser', loggedInUsername);
             window.location.href = 'index.html';
         });
     }
