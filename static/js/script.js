@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             let dailies = liveTasks.filter(t => t.category === 'daily');
             let habits = liveTasks.filter(t => t.category === 'habit');
-
             let dailyScore = dailies.length > 0 ? Math.round((dailies.filter(t => t.status === 'completed').length / dailies.length) * 100) : 0;
             let hobbyScore = habits.length > 0 ? Math.round((habits.filter(t => t.status === 'completed').length / habits.length) * 100) : 0;
 
@@ -137,9 +136,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             }));
             if (itemLogs.length > 0) { await supabase.from('item_history').insert(itemLogs); }
 
-            // Clear daily targets & reset pending states cleanly via cloud targets
+            // Reset daily targets & reset pending states cleanly via cloud targets
+            // 1. Clear daily tasks
             await supabase.from('tasks').delete().eq('username', user).eq('category', 'daily');
-            await supabase.from('tasks').update({ status: 'pending' }).eq('username', user).eq('category', 'habit');
+
+            // 2. Reset streak of uncompleted habits/hobbies to 0
+            await supabase.from('tasks').update({ streak: 0 }).eq('username', user).eq('category', 'habit').eq('status', 'pending');
+
+            // 3. Reset completed habits/hobbies to pending status (keeping their streak)
+            await supabase.from('tasks').update({ status: 'pending' }).eq('username', user).eq('category', 'habit').eq('status', 'completed');
+
             await supabase.from('user_preferences').update({ last_checked_date: todayStr }).eq('username', user);
         }
     }
@@ -244,10 +250,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                         institution: document.getElementById('profile-institution').value.trim(),
                         bio: document.getElementById('profile-bio').value.trim()
                     };
-                    const { error } = await supabase.from('user_profiles').update(updatedFields).eq('username', currentUser);
-                    if (!error && successBox) {
-                        successBox.classList.remove('hidden');
-                        setTimeout(() => successBox.classList.add('hidden'), 3000);
+                    const { error } = await supabase
+                        .from('user_profiles')
+                        .upsert({ username: currentUser, ...updatedFields }, { onConflict: 'username' });
+                    
+                    const activeSuccessBox = document.getElementById('profile-success');
+                    if (!error && activeSuccessBox) {
+                        activeSuccessBox.classList.remove('hidden');
+                        setTimeout(() => activeSuccessBox.classList.add('hidden'), 3000);
                     }
                 });
             }
